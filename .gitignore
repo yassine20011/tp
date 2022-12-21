@@ -1,5 +1,6 @@
-.main.exe
-.test.c
-.a.out
 
 .vscode/
+hidden/
+a.out
+test.js
+test.c
