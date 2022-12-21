@@ -378,59 +378,31 @@ void *FrenchNumbers(int n)
     const char *million = "million";
 
     if (n >= 0 && n <= 19)
-    {
         printf("%s\n", from0to19(n, digits));
-    }
-    if (n >= 20 && n <= 99)
-    {
+    else if (n >= 20 && n <= 99)
         printf("%s\n", from20to99(n, digits, tens));
-    }
-    if (n >= 100 && n <= 119)
-    {
+    else if (n >= 100 && n <= 119)
         printf("%s\n", from100to199(n, digits, tens));
-    }
-
-    if (n >= 120 && n <= 199)
-    {
+    else if (n >= 120 && n <= 199)
         printf("%s\n", from100to199(n, digits, tens));
-    }
-
-    if (n >= 200 && n <= 999)
-    {
+    else if (n >= 200 && n <= 999)
         printf("%s\n", from200to999(n, digits, tens));
-    }
-
-    if (n >= 1000 && n <= 9999)
-    {
+    else if (n >= 1000 && n <= 9999)
         printf("%s\n", from1000to9999(n, digits, tens));
-    }
-
-    if (n >= 10000 && n <= 19999)
-    {
+    else if (n >= 10000 && n <= 19999)
         printf("%s\n", from10000to19999(n, digits, tens));
-    }
-
-    if (n >= 10000 && n <= 19999)
-    {
+    else if (n >= 10000 && n <= 19999)
         printf("%s\n", from10000to19999(n, digits, tens));
-    }
-    if (n >= 20000 && n <= 99999)
-    {
+    else if (n >= 20000 && n <= 99999)
         printf("%s\n", from20000to99999(n, digits, tens));
-    }
-    if (n >= 100000 && n <= 199999)
-    {
+    else if (n >= 100000 && n <= 199999)
         printf("%s\n", from100000to199999(n, digits, tens));
-    }
-    if (n >= 200000 && n <= 999999)
-    {
+    else if (n >= 200000 && n <= 999999)
         printf("%s\n", from200000to999999(n, digits, tens));
-    }
-    if (n >= 1000000 && n <= 9999999)
-    {
+    else if (n >= 1000000 && n <= 9999999)
         printf("%s\n", fromMillionTo9999999(n, digits, tens));
-    }
 }
+
 
 int main()
 {
