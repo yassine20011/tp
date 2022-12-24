@@ -130,7 +130,6 @@ char *from1000to9999(int n, const char **digits, const char **tens)
 
 char *from10000to19999(int n, const char **digits, const char **tens)
 {
-
     const char *string1;
     const char *string2 = " mille ";
     char *string3;
