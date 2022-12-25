@@ -4,6 +4,56 @@
 #include <string.h>
 #include <stdlib.h>
 
+
+char *RemoveDuplicateSpace(char *str)
+{
+    char *str2 = malloc(strlen(str) + 1);
+    int i = 0;
+    int j = 0;
+    while (str[i] != '\0')
+    {
+        if (str[i] == ' ' && str[i + 1] == ' ')
+            i++;
+        else
+        {
+            str2[j] = str[i];
+            i++;
+            j++;
+        }
+    }
+    str2[j] = '\0';
+    return str2;
+}
+
+char *Capitalize(char *str)
+{
+    int i = 0;
+    int j = 0;
+
+    if (str[strlen(str) - 1] == ' ')
+        str[strlen(str) - 1] = '\0';
+
+    char *str2 = malloc(strlen(str) + 1);
+
+    while (str[i] != '\0')
+    {
+        if (str[i] == ' ' )
+        {
+            str2[j] = str[i];
+            str2[j + 1] = str[i + 1] - 32;
+            i++;
+            j++;
+        }
+        else
+            str2[j] = str[i];
+        i++;
+        j++;
+    }
+    str2[0] = str[0] - 32;
+    str2[j] = '\0';
+    return str2;
+}
+
 char *from0to19(int n, const char **digits)
 {
     return (char *)digits[n];
@@ -323,5 +373,6 @@ char *FrenchNumbers(int n)
         string = "le numero est trop grand";
     return string;
 }
+
 
 #endif
