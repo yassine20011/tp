@@ -7,6 +7,8 @@
 const char *digits[] = {"zero", "un", "deux", "trois", "quatre", "cinq", "six", "sept", "huit", "neuf", "dix", "onze", "douze", "treize", "quatorze", "quinze", "seize", "dix-sept", "dix-huit", "dix-neuf"};
 const char *tens[] = {"vingt", "trente", "quarante", "cinquante", "soixante", "Soixante-dix", "quatre-vingt", "quatre-vingt-dix"};
 
+char *FrenchNumbers(int n);
+
 char *RemoveDuplicateSpace(char *str)
 {
     char *str2 = malloc(strlen(str) + 1);
@@ -148,363 +150,103 @@ char *from200to999(int n, const char **digits, const char **tens)
     strcat(string3, string2);
     return string3;
 }
-
-char *from1000to9999(int n, const char **digits, const char **tens)
+char *mille(int n)
 {
-    const char *string1;
     const char *mille = " mille ";
-    const char *string2;
+    char *string;
+    char *string2;
     char *total;
+    int nbr = n / 1000;
 
-    if (n % 1000 == 0)
-    {
-        string1 = from0to19(n / 1000, digits);
-        total = malloc(strlen(string1) + strlen(mille) + 1);
-        strcpy(total, string1);
-        strcat(total, mille);
-        return total;
-    }
-    else if (n % 1000 <= 19)
-        string2 = from0to19(n % 1000, digits);
-    else if (n % 1000 >= 20 && n % 1000 <= 99)
-        string2 = from20to99(n % 1000, digits, tens);
-    else if (n % 1000 >= 100 && n % 1000 <= 199)
-        string2 = from100to199(n % 1000, digits, tens);
-    else if (n % 1000 >= 200 && n % 1000 <= 999)
-        string2 = from200to999(n % 1000, digits, tens);
-    string1 = from0to19(n / 1000, digits);
-    total = malloc(strlen(string1) + strlen(mille) + strlen(string2) + 1);
-    strcpy(total, string1);
+    if (nbr >= 0 && nbr <= 19)
+        string = from0to19(nbr, digits);
+    else if (nbr >= 20 && nbr <= 99)
+        string = from20to99(nbr, digits, tens);
+    else if (nbr >= 100 && nbr <= 199)
+        string = from100to199(nbr, digits, tens);
+    else if (nbr >= 200 && nbr <= 999)
+        string = from200to999(nbr, digits, tens);
+
+    string2 = n % 1000 == 0 ? " " : FrenchNumbers(n % 1000);
+    total = malloc(strlen(string) + strlen(mille) + strlen(string2) + 1);
+    strcpy(total, string);
     strcat(total, mille);
     strcat(total, string2);
     return total;
 }
 
-char *from10000to19999(int n, const char **digits, const char **tens)
+char *millions(int n)
 {
-    const char *string1;
-    const char *string2 = " mille ";
-    char *string3;
-    char *total;
-
-    if (n % 1000 == 0)
-    {
-        string1 = from0to19(n / 1000, digits);
-        string3 = malloc(strlen(string1) + strlen(string2) + 1);
-        strcpy(string3, string1);
-        strcat(string3, string2);
-        return string3;
-    }
-    else if (n % 1000 <= 19)
-        string3 = from0to19(n % 1000, digits);
-    else if (n % 1000 >= 20 && n % 1000 <= 99)
-        string3 = from20to99(n % 1000, digits, tens);
-    else if (n % 1000 >= 100 && n % 1000 <= 199) // 1000-1199
-        string3 = from100to199(n % 1000, digits, tens);
-    else if (n % 1000 >= 200 && n % 1000 <= 999) //
-        string3 = from200to999(n % 1000, digits, tens);
-    string1 = from0to19(n / 1000, digits);
-    total = malloc(strlen(string1) + strlen(string2) + strlen(string3) + 1);
-    strcpy(total, string1);
-    strcat(total, string2);
-    strcat(total, string3);
-    return total;
-}
-
-char *from20000to99999(int n, const char **digits, const char **tens)
-{
-    const char *string1;
-    const char *string2;
-    const char *mille = " mille ";
-    char *total;
-    if (n % 1000 == 0)
-    {
-        string1 = from20to99(n / 1000, digits, tens);
-        total = malloc(strlen(string1) + strlen(mille) + 1);
-        strcpy(total, string1);
-        strcat(total, mille);
-        return total;
-    }
-    else if (n % 1000 <= 19)
-        string2 = from0to19(n % 1000, digits);
-    else if (n % 1000 >= 20 && n % 1000 <= 99)
-        string2 = from20to99(n % 1000, digits, tens);
-    else if (n % 1000 >= 100 && n % 1000 <= 199)
-        string2 = from100to199(n % 1000, digits, tens);
-    else if (n % 1000 >= 200 && n % 1000 <= 999)
-        string2 = from200to999(n % 1000, digits, tens);
-    string1 = from20to99(n / 1000, digits, tens);
-    total = malloc(strlen(string1) + strlen(mille) + strlen(string2) + 1);
-    strcpy(total, string1);
-    strcat(total, mille);
-    strcat(total, string2);
-    return total;
-}
-
-char *from100000to199999(int n, const char **digits, const char **tens)
-{
-    const char *string1;
-    const char *string2;
-    const char *mille = " mille ";
-    char *total;
-
-    if (n % 1000 == 0)
-    {
-        string1 = from100to199(n / 1000, digits, tens);
-        total = malloc(strlen(string1) + strlen(mille) + 1);
-        strcpy(total, string1);
-        strcat(total, mille);
-        return total;
-    }
-    else if (n % 1000 <= 19)
-        string2 = from0to19(n % 1000, digits);
-    else if (n % 1000 >= 20 && n % 1000 <= 99)
-        string2 = from20to99(n % 1000, digits, tens);
-    else if (n % 1000 >= 100 && n % 1000 <= 199)
-        string2 = from100to199(n % 1000, digits, tens);
-    else if (n % 1000 >= 200 && n % 1000 <= 999)
-        string2 = from200to999(n % 1000, digits, tens);
-    string1 = from100to199(n / 1000, digits, tens);
-
-    total = malloc(strlen(string1) + strlen(mille) + strlen(string2) + 1);
-    strcpy(total, string1);
-    strcat(total, mille);
-    strcat(total, string2);
-    return total;
-}
-
-char *from200000to999999(int n, const char **digits, const char **tens)
-{
-    const char *string1;
-    const char *string2;
-    const char *mille = " mille ";
-    char *total;
-
-    if (n % 1000 == 0)
-    {
-        string1 = from200to999(n / 1000, digits, tens);
-        total = malloc(strlen(string1) + strlen(mille) + 1);
-        strcpy(total, string1);
-        strcat(total, mille);
-        return total;
-    }
-    else if (n % 1000 <= 19)
-        string2 = from0to19(n % 1000, digits);
-    else if (n % 1000 >= 20 && n % 1000 <= 99)
-        string2 = from20to99(n % 1000, digits, tens);
-    else if (n % 1000 >= 100 && n % 1000 <= 199)
-        string2 = from100to199(n % 1000, digits, tens);
-    else if (n % 1000 >= 200 && n % 1000 <= 999)
-        string2 = from200to999(n % 1000, digits, tens);
-    string1 = from200to999(n / 1000, digits, tens);
-    total = malloc(strlen(string1) + strlen(mille) + strlen(string2) + 1);
-    strcpy(total, string1);
-    strcat(total, mille);
-    strcat(total, string2);
-    return total;
-}
-
-char *fromMillionTo9999999(int n, const char **digits, const char **tens)
-{
-    const char *string1;
-    const char *string2;
     const char *million = " million ";
+    char *string;
+    char *string2;
     char *total;
+    int nbr = n / 1000000;
 
-    if (n % 1000000 == 0)
-    {
-        string1 = from0to19(n / 1000000, digits);
-        total = malloc(strlen(string1) + strlen(million) + 1);
-        strcpy(total, string1);
-        strcat(total, million);
-        return total;
-    }
-    else if (n % 1000000 <= 19)
-        string2 = from0to19(n % 1000000, digits);
-    else if (n % 1000000 >= 20 && n % 1000000 <= 99)
-        string2 = from20to99(n % 1000000, digits, tens);
-    else if (n % 1000000 >= 100 && n % 1000000 <= 199)
-        string2 = from100to199(n % 1000000, digits, tens);
-    else if (n % 1000000 >= 200 && n % 1000000 <= 999)
-        string2 = from200to999(n % 1000000, digits, tens);
-    else if (n % 1000000 >= 1000 && n % 1000000 <= 9999)
-        string2 = from1000to9999(n % 1000000, digits, tens);
-    else if (n % 1000000 >= 10000 && n % 1000000 <= 19999)
-        string2 = from10000to19999(n % 1000000, digits, tens);
-    else if (n % 1000000 >= 20000 && n % 1000000 <= 99999)
-        string2 = from20000to99999(n % 1000000, digits, tens);
-    else if (n % 1000000 >= 100000 && n % 1000000 <= 199999)
-        string2 = from100000to199999(n % 1000000, digits, tens);
-    else if (n % 1000000 >= 200000 && n % 1000000 <= 999999)
-        string2 = from200000to999999(n % 1000000, digits, tens);
-    string1 = from0to19(n / 1000000, digits);
-    total = malloc(strlen(string1) + strlen(million) + strlen(string2) + 1);
-    strcpy(total, string1);
+    if (nbr >= 0 && nbr <= 19)
+        string = from0to19(nbr, digits);
+    else if (nbr >= 20 && nbr <= 99)
+        string = from20to99(nbr, digits, tens);
+    else if (nbr >= 100 && nbr <= 199)
+        string = from100to199(nbr, digits, tens);
+    else if (nbr >= 200 && nbr <= 999)
+        string = from200to999(nbr, digits, tens);
+
+    string2 = n % 1000000 == 0 ? " " : FrenchNumbers(n % 1000000);
+    total = malloc(strlen(string) + strlen(million) + strlen(string2) + 1);
+    strcpy(total, string);
     strcat(total, million);
     strcat(total, string2);
     return total;
 }
 
-char *from10M_To19999999(int n, const char **digits, const char **tens)
+char *milliards(long int n)
 {
-    const char *string1;
-    const char *string2;
-    const char *million = " millions ";
+    const char *milliard = " milliard ";
+    char *string;
+    char *string2;
     char *total;
+    int nbr = n / 1000000000;
 
-    if (n % 1000000 == 0)
-    {
-        string1 = from0to19(n / 1000000, digits);
-        total = malloc(strlen(string1) + strlen(million) + 1);
-        strcpy(total, string1);
-        strcat(total, million);
-        return total;
-    }
-    else if (n % 1000000 <= 19)
-        string2 = from0to19(n % 1000000, digits);
-    else if (n % 1000000 >= 20 && n % 1000000 <= 99)
-        string2 = from20to99(n % 1000000, digits, tens);
-    else if (n % 1000000 >= 100 && n % 1000000 <= 199)
-        string2 = from100to199(n % 1000000, digits, tens);
-    else if (n % 1000000 >= 200 && n % 1000000 <= 999)
-        string2 = from200to999(n % 1000000, digits, tens);
-    else if (n % 1000000 >= 1000 && n % 1000000 <= 9999)
-        string2 = from1000to9999(n % 1000000, digits, tens);
-    else if (n % 1000000 >= 10000 && n % 1000000 <= 19999)
-        string2 = from10000to19999(n % 1000000, digits, tens);
-    else if (n % 1000000 >= 20000 && n % 1000000 <= 99999)
-        string2 = from20000to99999(n % 1000000, digits, tens);
-    else if (n % 1000000 >= 100000 && n % 1000000 <= 199999)
-        string2 = from100000to199999(n % 1000000, digits, tens);
-    else if (n % 1000000 >= 200000 && n % 1000000 <= 999999)
-        string2 = from200000to999999(n % 1000000, digits, tens);
-    string1 = from0to19(n / 1000000, digits);
-    total = malloc(strlen(string1) + strlen(million) + strlen(string2) + 1);
-    strcpy(total, string1);
-    strcat(total, million);
+    if (nbr >= 0 && nbr <= 19)
+        string = from0to19(nbr, digits);
+    else if (nbr >= 20 && nbr <= 99)
+        string = from20to99(nbr, digits, tens);
+    else if (nbr >= 100 && nbr <= 199)
+        string = from100to199(nbr, digits, tens);
+    else if (nbr >= 200 && nbr <= 999)
+        string = from200to999(nbr, digits, tens);
+
+    string2 = n % 1000000000 == 0 ? " " : FrenchNumbers(n % 1000000000);
+    total = malloc(strlen(string) + strlen(milliard) + strlen(string2) + 1);
+    strcpy(total, string);
+    strcat(total, milliard);
     strcat(total, string2);
     return total;
 }
 
-char *from20M_To99999999(int n, const char **digits, const char **tens)
+char *billions(long int n)
 {
-    const char *string1;
-    const char *string2;
-    const char *million = " millions ";
+    const char *billion = " billion ";
+
+    char *string;
+    char *string2;
     char *total;
+    int nbr = n / 1000000000000;
 
-    if (n % 1000000 == 0)
-    {
-        string1 = from20to99(n / 1000000, digits, tens);
-        total = malloc(strlen(string1) + strlen(million) + 1);
-        strcpy(total, string1);
-        strcat(total, million);
-        return total;
-    }
-    else if (n % 1000000 <= 19)
-        string2 = from0to19(n % 1000000, digits);
-    else if (n % 1000000 >= 20 && n % 1000000 <= 99)
-        string2 = from20to99(n % 1000000, digits, tens);
-    else if (n % 1000000 >= 100 && n % 1000000 <= 199)
-        string2 = from100to199(n % 1000000, digits, tens);
-    else if (n % 1000000 >= 200 && n % 1000000 <= 999)
-        string2 = from200to999(n % 1000000, digits, tens);
-    else if (n % 1000000 >= 1000 && n % 1000000 <= 9999)
-        string2 = from1000to9999(n % 1000000, digits, tens);
-    else if (n % 1000000 >= 10000 && n % 1000000 <= 19999)
-        string2 = from10000to19999(n % 1000000, digits, tens);
-    else if (n % 1000000 >= 20000 && n % 1000000 <= 99999)
-        string2 = from20000to99999(n % 1000000, digits, tens);
-    else if (n % 1000000 >= 100000 && n % 1000000 <= 199999)
-        string2 = from100000to199999(n % 1000000, digits, tens);
-    else if (n % 1000000 >= 200000 && n % 1000000 <= 999999)
-        string2 = from200000to999999(n % 1000000, digits, tens);
-    string1 = from20to99(n / 1000000, digits, tens);
-    total = malloc(strlen(string1) + strlen(million) + strlen(string2) + 1);
-    strcpy(total, string1);
-    strcat(total, million);
-    strcat(total, string2);
-    return total;
-}
+    if (nbr >= 0 && nbr <= 19)
+        string = from0to19(nbr, digits);
+    else if (nbr >= 20 && nbr <= 99)
+        string = from20to99(nbr, digits, tens);
+    else if (nbr >= 100 && nbr <= 199)
+        string = from100to199(nbr, digits, tens);
+    else if (nbr >= 200 && nbr <= 999)
+        string = from200to999(nbr, digits, tens);
 
-char *from100M_To199999999(int n, const char **digits, const char **tens)
-{
-    const char *string1;
-    const char *string2;
-    const char *million = " millions ";
-    char *total;
-
-    if (n % 1000000 == 0)
-    {
-        string1 = from100to199(n / 1000000, digits, tens);
-        total = malloc(strlen(string1) + strlen(million) + 1);
-        strcpy(total, string1);
-        strcat(total, million);
-        return total;
-    }
-    else if (n % 1000000 <= 19)
-        string2 = from0to19(n % 1000000, digits);
-    else if (n % 1000000 >= 20 && n % 1000000 <= 99)
-        string2 = from20to99(n % 1000000, digits, tens);
-    else if (n % 1000000 >= 100 && n % 1000000 <= 199)
-        string2 = from100to199(n % 1000000, digits, tens);
-    else if (n % 1000000 >= 200 && n % 1000000 <= 999)
-        string2 = from200to999(n % 1000000, digits, tens);
-    else if (n % 1000000 >= 1000 && n % 1000000 <= 9999)
-        string2 = from1000to9999(n % 1000000, digits, tens);
-    else if (n % 1000000 >= 10000 && n % 1000000 <= 19999)
-        string2 = from10000to19999(n % 1000000, digits, tens);
-    else if (n % 1000000 >= 20000 && n % 1000000 <= 99999)
-        string2 = from20000to99999(n % 1000000, digits, tens);
-    else if (n % 1000000 >= 100000 && n % 1000000 <= 199999)
-        string2 = from100000to199999(n % 1000000, digits, tens);
-    else if (n % 1000000 >= 200000 && n % 1000000 <= 999999)
-        string2 = from200000to999999(n % 1000000, digits, tens);
-    string1 = from100to199(n / 1000000, digits, tens);
-    total = malloc(strlen(string1) + strlen(million) + strlen(string2) + 1);
-    strcpy(total, string1);
-    strcat(total, million);
-    strcat(total, string2);
-    return total;
-}
-
-char *from200M_To999999999(int n, const char **digits, const char **tens)
-{
-    const char *string1;
-    const char *string2;
-    const char *million = " millions ";
-    char *total;
-
-    if (n % 1000000 == 0)
-    {
-        string1 = from200to999(n / 1000000, digits, tens);
-        total = malloc(strlen(string1) + strlen(million) + 1);
-        strcpy(total, string1);
-        strcat(total, million);
-        return total;
-    }
-    else if (n % 1000000 <= 19)
-        string2 = from0to19(n % 1000000, digits);
-    else if (n % 1000000 >= 20 && n % 1000000 <= 99)
-        string2 = from20to99(n % 1000000, digits, tens);
-    else if (n % 1000000 >= 100 && n % 1000000 <= 199)
-        string2 = from100to199(n % 1000000, digits, tens);
-    else if (n % 1000000 >= 200 && n % 1000000 <= 999)
-        string2 = from200to999(n % 1000000, digits, tens);
-    else if (n % 1000000 >= 1000 && n % 1000000 <= 9999)
-        string2 = from1000to9999(n % 1000000, digits, tens);
-    else if (n % 1000000 >= 10000 && n % 1000000 <= 19999)
-        string2 = from10000to19999(n % 1000000, digits, tens);
-    else if (n % 1000000 >= 20000 && n % 1000000 <= 99999)
-        string2 = from20000to99999(n % 1000000, digits, tens);
-    else if (n % 1000000 >= 100000 && n % 1000000 <= 199999)
-        string2 = from100000to199999(n % 1000000, digits, tens);
-    else if (n % 1000000 >= 200000 && n % 1000000 <= 999999)
-        string2 = from200000to999999(n % 1000000, digits, tens);
-    string1 = from200to999(n / 1000000, digits, tens);
-    total = malloc(strlen(string1) + strlen(million) + strlen(string2) + 1);
-    strcpy(total, string1);
-    strcat(total, million);
+    string2 = n % 1000000000000 == 0 ? " " : milliards(n % 1000000000000);
+    total = malloc(strlen(string) + strlen(billion) + strlen(string2) + 1);
+    strcpy(total, string);
+    strcat(total, billion);
     strcat(total, string2);
     return total;
 }
@@ -521,26 +263,10 @@ char *FrenchNumbers(int n)
         string = from100to199(n, digits, tens);
     else if (n >= 200 && n <= 999)
         string = from200to999(n, digits, tens);
-    else if (n >= 1000 && n <= 9999)
-        string = from1000to9999(n, digits, tens);
-    else if (n >= 10000 && n <= 19999)
-        string = from10000to19999(n, digits, tens);
-    else if (n >= 20000 && n <= 99999)
-        string = from20000to99999(n, digits, tens);
-    else if (n >= 100000 && n <= 199999)
-        string = from100000to199999(n, digits, tens);
-    else if (n >= 200000 && n <= 999999)
-        string = from200000to999999(n, digits, tens);
-    else if (n >= 1000000 && n <= 9999999)
-        string = fromMillionTo9999999(n, digits, tens);
-    else if (n >= 10000000 && n <= 19999999)
-        string = from10M_To19999999(n, digits, tens);
-    else if (n >= 20000000 && n <= 99999999)
-        string = from20M_To99999999(n, digits, tens);
-    else if (n >= 100000000 && n <= 199999999)
-        string = from100M_To199999999(n, digits, tens);
-    else if (n >= 200000000 && n <= 999999999)
-        string = from200M_To999999999(n, digits, tens);
+    else if (n >= 1000 && n <= 999999)
+        string = mille(n);
+    else if (n >= 1000000 && n <= 999999999)
+        string = millions(n);
     else
         string = "le numero est trop grand";
     return string;
