@@ -200,6 +200,30 @@ char *billions(long int n)
     return total;
 }
 
+char *billiards(long int n)
+{
+    const char *billiard = " billiard ";
+    char *string;
+    char *string2;
+    char *total;
+    int nbr = n / 1000000000000000;
+
+    if (nbr >= 0 && nbr <= 19)
+        string = from0to19(nbr, digits);
+    else if (nbr >= 20 && nbr <= 99)
+        string = from20to99(nbr, digits, tens);
+    else if (nbr >= 100 && nbr <= 999)
+        string = cents(nbr);
+
+    string2 = n % 1000000000000000 == 0 ? " " : FrenchNumbers(n % 1000000000000000);
+    total = malloc(strlen(string) + strlen(billiard) + strlen(string2) + 1);
+    strcpy(total, string);
+    strcat(total, billiard);
+    strcat(total, string2);
+    return total;
+}
+
+
 char *FrenchNumbers(long int n)
 {
     char *string;
@@ -218,6 +242,8 @@ char *FrenchNumbers(long int n)
         string = milliards(n);
     else if (n >= 1000000000000 && n <= 999999999999999)
         string = billions(n);
+    else if (n >= 1000000000000000 && n <= 999999999999999999)
+        string = billiards(n);
     else
         string = "le numero est trop grand";
     return string;

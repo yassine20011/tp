@@ -7,7 +7,7 @@ int main()
 {
     long int n;
 
-    printf("Entrez un nombre entre 0 et 999 999 999 999 999: ");
+    printf("Entrez un nombre entre 0 et 999 999 999 999 999 999: ");
     scanf("%ld", &n);
 
     printf("%ld = %s\n", n, RemoveDuplicateSpace(FrenchNumbers(n)));
