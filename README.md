@@ -1,1 +1,1 @@
-It converts numbers into French words
+A program that transforms numbers into French words.
