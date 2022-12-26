@@ -7,7 +7,7 @@
 const char *digits[] = {"zero", "un", "deux", "trois", "quatre", "cinq", "six", "sept", "huit", "neuf", "dix", "onze", "douze", "treize", "quatorze", "quinze", "seize", "dix-sept", "dix-huit", "dix-neuf"};
 const char *tens[] = {"vingt", "trente", "quarante", "cinquante", "soixante", "Soixante-dix", "quatre-vingt", "quatre-vingt-dix"};
 
-char *FrenchNumbers(int n);
+char *FrenchNumbers(long int n);
 
 char *RemoveDuplicateSpace(char *str)
 {
@@ -43,9 +43,7 @@ char *from20to99(int n, const char **digits, const char **tens)
     char *Hyphen = "-";
 
     if (n % 10 == 0)
-    {
         return (char *)tens[n / 10 - 2];
-    }
     else if (n == 21 || n == 31 || n == 41 || n == 51 || n == 61 || n == 81)
     {
         string1 = tens[n / 10 - 2];
@@ -194,7 +192,7 @@ char *billions(long int n)
     else if (nbr >= 100 && nbr <= 999)
         string = cents(nbr);
 
-    string2 = n % 1000000000000 == 0 ? " " : milliards(n % 1000000000000);
+    string2 = n % 1000000000000 == 0 ? " " : FrenchNumbers(n % 1000000000000);
     total = malloc(strlen(string) + strlen(billion) + strlen(string2) + 1);
     strcpy(total, string);
     strcat(total, billion);
@@ -202,7 +200,7 @@ char *billions(long int n)
     return total;
 }
 
-char *FrenchNumbers(int n)
+char *FrenchNumbers(long int n)
 {
     char *string;
 
@@ -216,6 +214,10 @@ char *FrenchNumbers(int n)
         string = mille(n);
     else if (n >= 1000000 && n <= 999999999)
         string = millions(n);
+    else if (n >= 1000000000 && n <= 999999999999)
+        string = milliards(n);
+    else if (n >= 1000000000000 && n <= 999999999999999)
+        string = billions(n);
     else
         string = "le numero est trop grand";
     return string;
