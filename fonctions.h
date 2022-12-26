@@ -29,35 +29,6 @@ char *RemoveDuplicateSpace(char *str)
     return str2;
 }
 
-char *Capitalize(char *str)
-{
-    int i = 0;
-    int j = 0;
-
-    if (str[strlen(str) - 1] == ' ')
-        str[strlen(str) - 1] = '\0';
-
-    char *str2 = malloc(strlen(str) + 1);
-
-    while (str[i] != '\0')
-    {
-        if (str[i] == ' ')
-        {
-            str2[j] = str[i];
-            str2[j + 1] = str[i + 1] - 32;
-            i++;
-            j++;
-        }
-        else
-            str2[j] = str[i];
-        i++;
-        j++;
-    }
-    str2[0] = str[0] - 32;
-    str2[j] = '\0';
-    return str2;
-}
-
 char *from0to19(int n, const char **digits)
 {
     return (char *)digits[n];
@@ -112,44 +83,32 @@ char *from20to99(int n, const char **digits, const char **tens)
     return string3;
 }
 
-char *from100to199(int n, const char **digits, const char **tens)
+char *cents(int n)
 {
-    const char *cent = "cent ";
-    char *string1;
+    char *cent = " cent ";
+    char *string;
+    char *string2;
+    char *total;
+    int nbr = n / 100;
 
-    if (n == 100)
-        return (char *)cent;
-    else if (n >= 101 && n <= 119)
+    if (nbr >= 0 && nbr <= 19)
     {
-        string1 = malloc(strlen(cent) + strlen(from0to19(n % 100, digits)) + 1);
-        strcpy(string1, cent);
-        return strcat(string1, from0to19(n % 100, digits));
+        if (nbr == 1)
+            string = "";
+        else
+            string = from0to19(nbr, digits);
     }
-    else if (n >= 120 && n <= 199)
-    {
-        string1 = malloc(strlen(cent) + strlen(from20to99(n % 100, digits, tens)) + 1);
-        strcpy(string1, cent);
-        return strcat(string1, from20to99(n % 100, digits, tens));
-    }
-    return NULL;
+    else if (nbr >= 20 && nbr <= 99)
+        string = from20to99(nbr, digits, tens);
+
+    string2 = n % 100 == 0 ? " " : FrenchNumbers(n % 100);
+    total = malloc(strlen(string) + strlen(cent) + strlen(string2) + 1);
+    strcpy(total, string);
+    strcat(total, cent);
+    strcat(total, string2);
+    return total;
 }
 
-char *from200to999(int n, const char **digits, const char **tens)
-{
-    const char *string1;
-    const char *space = " ";
-    const char *string2;
-    char *string3;
-
-    string1 = from0to19(n / 100, digits);
-    string2 = from100to199(n - ((n / 100) - 1) * 100, digits, tens);
-
-    string3 = malloc(strlen(string1) + strlen(space) + strlen(string2) + 1);
-    strcpy(string3, string1);
-    strcat(string3, space);
-    strcat(string3, string2);
-    return string3;
-}
 char *mille(int n)
 {
     const char *mille = " mille ";
@@ -162,10 +121,8 @@ char *mille(int n)
         string = from0to19(nbr, digits);
     else if (nbr >= 20 && nbr <= 99)
         string = from20to99(nbr, digits, tens);
-    else if (nbr >= 100 && nbr <= 199)
-        string = from100to199(nbr, digits, tens);
-    else if (nbr >= 200 && nbr <= 999)
-        string = from200to999(nbr, digits, tens);
+    else if (nbr >= 100 && nbr <= 999)
+        string = cents(nbr);
 
     string2 = n % 1000 == 0 ? " " : FrenchNumbers(n % 1000);
     total = malloc(strlen(string) + strlen(mille) + strlen(string2) + 1);
@@ -187,10 +144,8 @@ char *millions(int n)
         string = from0to19(nbr, digits);
     else if (nbr >= 20 && nbr <= 99)
         string = from20to99(nbr, digits, tens);
-    else if (nbr >= 100 && nbr <= 199)
-        string = from100to199(nbr, digits, tens);
-    else if (nbr >= 200 && nbr <= 999)
-        string = from200to999(nbr, digits, tens);
+    else if (nbr >= 100 && nbr <= 999)
+        string = cents(nbr);
 
     string2 = n % 1000000 == 0 ? " " : FrenchNumbers(n % 1000000);
     total = malloc(strlen(string) + strlen(million) + strlen(string2) + 1);
@@ -212,10 +167,8 @@ char *milliards(long int n)
         string = from0to19(nbr, digits);
     else if (nbr >= 20 && nbr <= 99)
         string = from20to99(nbr, digits, tens);
-    else if (nbr >= 100 && nbr <= 199)
-        string = from100to199(nbr, digits, tens);
-    else if (nbr >= 200 && nbr <= 999)
-        string = from200to999(nbr, digits, tens);
+    else if (nbr >= 100 && nbr <= 999)
+        string = cents(nbr);
 
     string2 = n % 1000000000 == 0 ? " " : FrenchNumbers(n % 1000000000);
     total = malloc(strlen(string) + strlen(milliard) + strlen(string2) + 1);
@@ -238,10 +191,8 @@ char *billions(long int n)
         string = from0to19(nbr, digits);
     else if (nbr >= 20 && nbr <= 99)
         string = from20to99(nbr, digits, tens);
-    else if (nbr >= 100 && nbr <= 199)
-        string = from100to199(nbr, digits, tens);
-    else if (nbr >= 200 && nbr <= 999)
-        string = from200to999(nbr, digits, tens);
+    else if (nbr >= 100 && nbr <= 999)
+        string = cents(nbr);
 
     string2 = n % 1000000000000 == 0 ? " " : milliards(n % 1000000000000);
     total = malloc(strlen(string) + strlen(billion) + strlen(string2) + 1);
@@ -259,10 +210,8 @@ char *FrenchNumbers(int n)
         string = from0to19(n, digits);
     else if (n >= 20 && n <= 99)
         string = from20to99(n, digits, tens);
-    else if (n >= 100 && n <= 199)
-        string = from100to199(n, digits, tens);
-    else if (n >= 200 && n <= 999)
-        string = from200to999(n, digits, tens);
+    else if (n >= 100 && n <= 999)
+        string = cents(n);
     else if (n >= 1000 && n <= 999999)
         string = mille(n);
     else if (n >= 1000000 && n <= 999999999)
@@ -273,5 +222,3 @@ char *FrenchNumbers(int n)
 }
 
 #endif
-
-// 999 999 999 999
