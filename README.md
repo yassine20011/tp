@@ -1,1 +1,1 @@
-It converts numbers in French works
+It converts numbers into French words
